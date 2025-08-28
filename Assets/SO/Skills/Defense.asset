@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Defense
   m_EditorClassIdentifier: 
   ArrowPrefab: {fileID: 2169394834373686008, guid: 977eaae0192e0e44ba6f3200ff484fc0, type: 3}
+  ArrowSpeed: 5
   GenCount: 1
+  GenInterval: 0.1
   Cooldown: 10
   IsStraight: 0

@@ -8,14 +8,12 @@ public class Attack : CharacterAction
     float _attackDelayTimer;
     [SerializeField] GameObject _arrowPrefab;
     Aiming _axis;
-    Bow _bow;
     Vector3 direction;
     void Start()
     {
         IsExitable = true;
         _searchTarget = _targetSide.GetComponent<SearchTarget>();
         _axis = GetComponentInChildren<Aiming>();
-        _bow = GetComponentInChildren<Bow>();
     }
     public override void Enter()
     {
@@ -37,7 +35,7 @@ public class Attack : CharacterAction
             Rigidbody2D _rigidbody2D = arrow.GetComponent<Rigidbody2D>();
             _rigidbody2D.linearVelocity = direction;
 
-            arrow.transform.position = _bow.transform.position;
+            arrow.transform.position = transform.position;
         }
         else
         {

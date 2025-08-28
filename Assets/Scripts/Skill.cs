@@ -4,6 +4,7 @@ using UnityEngine;
 public class Skill : ScriptableObject
 {
     public GameObject ArrowPrefab;
+    public float ArrowSpeed = 10f;
     public int GenCount = 1;
     public float GenInterval = 0.1f;
     public float Cooldown = 5f;

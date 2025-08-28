@@ -19,11 +19,9 @@ public class SkillPlayer : CharacterAction
     float _intervalTimer = 0f;
     int _genCount = 0;
     Aiming _axis;
-    Bow _bow;
     public void Start()
     {
         _axis = GetComponentInChildren<Aiming>();
-        _bow = GetComponentInChildren<Bow>();
         _skillTargetPosition = GlobalVariables.CenterPosition; 
     }
     public override void Enter()
@@ -35,7 +33,7 @@ public class SkillPlayer : CharacterAction
     }
     public override void Do()
     {
-        Vector3 direction = Aiming.ComputeDirection(transform.position, _skillTargetPosition, _skill.IsStraight ? 0 : Physics2D.gravity.y, 0.1f);
+        Vector3 direction = Aiming.ComputeDirection(transform.position, _skillTargetPosition, _skill.IsStraight ? 0 : Physics2D.gravity.y, _skill.ArrowSpeed);
         _axis.Velocity = direction;
         if (_isAiming == false) // 마우스 드랍
         {
@@ -47,7 +45,7 @@ public class SkillPlayer : CharacterAction
                 Rigidbody2D _rigidbody2D = arrow.GetComponent<Rigidbody2D>();
                 _rigidbody2D.linearVelocity = direction;
                 if (_skill.IsStraight) _rigidbody2D.gravityScale = 0;
-                arrow.transform.position = _bow.transform.position;
+                arrow.transform.position = transform.position;
                 CountArrow();
             }
             else

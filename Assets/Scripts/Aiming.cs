@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Aiming : MonoBehaviour
@@ -17,11 +18,11 @@ public class Aiming : MonoBehaviour
         }
     }
     
-    public static Vector3 ComputeDirection(Vector3 position, Vector3 targetPosition, float gravity, float defaultTime = 1f, float timeScale = 0.05f)
+    public static Vector3 ComputeDirection(Vector3 position, Vector3 targetPosition, float gravity, float xSpeed = 10f)
     {
         Vector3 direction = targetPosition - position;
         float distance = direction.magnitude;
-        float t = defaultTime + distance * timeScale; // 1초 + 거리 기반 시간 추가
+        float t = Math.Abs(direction.x) / xSpeed;// x축 속력에 따라 시간 계산 // defaultTime + distance * timeScale; // 1초 + 거리 기반 시간 추가
         direction.x /= t;
         direction.y -= 0.5f * gravity * t * t;
         direction.y /= t;

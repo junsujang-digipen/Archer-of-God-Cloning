@@ -44,7 +44,7 @@ public class SkillUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
 
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
-        if (_LockImage.activeSelf == true) return;
+        if (_LockImage.activeSelf == true || _AimImage.activeSelf == false) return;
         Vector3 currentPos = Camera.main.ScreenToWorldPoint(eventData.position);
         currentPos.z = 0;
         _AimImage.transform.position = currentPos;
@@ -54,7 +54,7 @@ public class SkillUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
 
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
-        if (_LockImage.activeSelf == true) return;
+        if (_LockImage.activeSelf == true || _AimImage.activeSelf == false) return;
         _AimImage.SetActive(false);
         _AimImage.GetComponent<Image>().raycastTarget = true;
         _controller.Shot();
