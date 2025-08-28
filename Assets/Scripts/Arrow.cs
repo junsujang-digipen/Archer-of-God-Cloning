@@ -6,10 +6,13 @@ public class Arrow : MonoBehaviour
     public Vector3 targetPosition;
     Rigidbody2D _rigidbody2D;
     Aiming _aiming;
+    // [SerializeField] GameObject _afterEffect;
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _aiming = GetComponent<Aiming>();
+        float _lifeTime = 10f;
+        Destroy(gameObject, _lifeTime);
     }
     void Update()
     { 

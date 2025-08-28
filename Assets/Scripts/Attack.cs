@@ -7,22 +7,26 @@ public class Attack : CharacterAction
     [SerializeField] float _attackDelay;
     float _attackDelayTimer;
     [SerializeField] GameObject _arrowPrefab;
-    [SerializeField] Aiming _aiming;
-    [SerializeField] GameObject _bow;
+    Aiming _axis;
+    Bow _bow;
     Vector3 direction;
     void Start()
     {
+        IsExitable = true;
         _searchTarget = _targetSide.GetComponent<SearchTarget>();
-        ResetTimer();
+        _axis = GetComponentInChildren<Aiming>();
+        _bow = GetComponentInChildren<Bow>();
     }
-    void Update()
+    public override void Enter()
     {
-        // 활 회전 설정
-        direction = ComputeDirection(_searchTarget.GetTarget().transform.position, Physics2D.gravity.y);
-        _aiming.Velocity = direction;
+        ResetTimer();
     }
     public override void Do()
     {
+        // 활 회전 설정
+        GameObject target = _searchTarget.GetTarget();
+        direction = Aiming.ComputeDirection(transform.position, target.transform.position, Physics2D.gravity.y);
+        _axis.Velocity = direction;
         if (_attackDelayTimer <= 0f)
         {
             ResetTimer();
@@ -32,7 +36,7 @@ public class Attack : CharacterAction
             // 화살 초기 속도 설정
             Rigidbody2D _rigidbody2D = arrow.GetComponent<Rigidbody2D>();
             _rigidbody2D.linearVelocity = direction;
-            
+
             arrow.transform.position = _bow.transform.position;
         }
         else
@@ -40,18 +44,13 @@ public class Attack : CharacterAction
             _attackDelayTimer -= GameTime.DeltaTime;
         }
     }
-    public void ResetTimer()
+    public override void Exit()
+    {
+        ResetTimer();
+        _axis.Velocity = GlobalVariables.CenterPosition - transform.position;
+    }
+    private void ResetTimer()
     {
         _attackDelayTimer = _attackDelay;
-    }
-    Vector3 ComputeDirection(Vector3 targetPosition, float gravity)
-    {
-        Vector3 direction = targetPosition - transform.position;
-        float distance = direction.magnitude;
-        float t = 1.0f + distance*0.05f; // 1초 + 거리 기반 시간 추가
-        direction.x /= t;
-        direction.y -= 0.5f * gravity * t * t;
-        direction.y /= t;
-        return direction;
     }
 }

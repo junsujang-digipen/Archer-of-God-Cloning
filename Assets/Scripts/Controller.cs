@@ -5,7 +5,10 @@ public class Controller : MonoBehaviour
 {
     [SerializeField] Character target;
     InputAction moveAction;
-    void Start() { moveAction = InputSystem.actions.FindAction("Move"); }
+    void Start()
+    {
+        moveAction = InputSystem.actions.FindAction("Move");
+    }
     void Update()
     {
         if (moveAction.IsPressed() == true)
@@ -19,13 +22,23 @@ public class Controller : MonoBehaviour
         }
         else
         {
-            target.CurrentState = Character.State.Attack;
+            target.Move(0);
+            // target.CurrentState = Character.State.Attack;
         }
     }
 
+    // UI interaction functions
     public void PlaySkill(int skillNumber)
     {
-        // target.CurrentState = Character.State.Skill;
-        Debug.Log("Skill " + skillNumber + " played");
+        target.Skill(skillNumber);
+        target.CurrentState = Character.State.Skill;
+    }
+    public void Aiming(Vector3 targetPosition)
+    {
+        target.CurrentSkillPlayer.SetTargetPosition(targetPosition);
+    }
+    public void Shot()
+    {
+        target.CurrentSkillPlayer.Shot();
     }
 }

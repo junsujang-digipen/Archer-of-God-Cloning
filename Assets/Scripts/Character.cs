@@ -8,45 +8,75 @@ public class Character : MonoBehaviour
 
     Attack _attackAction;
     Move _moveAction;
+    SkillSet _skillSet;
+    public SkillPlayer CurrentSkillPlayer
+    {
+        get { return _skillSet.CurrentSkillPlayer; }
+    }
 
     public enum State { Attack, Moving, Skill, None }
-    State _currentState;
-    public State CurrentState { get { return _currentState; } set { _currentState = value; } }
+    State _currentState = State.None;
+    CharacterAction _currentAction;
+    public State CurrentState
+    {
+        get { return _currentState; }
+        set
+        {
+            if(_currentState == value) return;
+            if (_currentAction?.IsExitable == false) return;
+            _currentAction?.Exit();
+            _currentState = value;
+            switch (_currentState)
+            {
+                case State.Attack:
+                    _currentAction = _attackAction;
+                    break;
+                case State.Moving:
+                    _currentAction = _moveAction;
+                    break;
+                case State.Skill:
+                    _currentAction = CurrentSkillPlayer;
+                    break;
+                case State.None:
+                    _currentAction = _attackAction;
+                    break;
+            }
+            _currentAction.Enter();
+        }
+    }
     void Awake()
     {
         _baseYPosition = transform.position.y;
-        CurrentState = State.Attack;
     }
     void Start()
     {
         _attackAction = GetComponent<Attack>();
         _moveAction = GetComponent<Move>();
+        _skillSet = GetComponent<SkillSet>();
+        CurrentState = State.Attack;
     }
     void Update()
     {
-        switch (_currentState)
+        _currentAction.Do();
+        if(_currentAction.IsExitable == true)
         {
-            case State.Attack:
-                _attackAction.Do();
-                break;
-            case State.Moving:
-                _attackAction.ResetTimer();
-                _moveAction.Do();
-                break;
-            case State.Skill:
-                _attackAction.ResetTimer();
-                Skill(0);
-                break;
+            CurrentState = State.Attack;
         }
     }
     public void Move(float x)
     {
-        _moveAction.Direction = x;
-        CurrentState = State.Moving;
+        if (x == 0) _moveAction.IsExitable = true;
+        else
+        {
+            _moveAction.Direction = x;
+            CurrentState = State.Moving;
+        }
     }
-    void Skill(int skillNumber)
+    public void Skill(int skillIdx)
     {
-        Debug.Log("Skill!");
+        _currentAction.IsExitable = true;
+        _skillSet.CurrSkillIdx = skillIdx;
+        CurrentState = State.Skill;
     }
 
     void OnTriggerEnter2D(Collider2D other)
