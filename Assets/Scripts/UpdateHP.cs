@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -7,6 +8,6 @@ public class UpdateHP : MonoBehaviour
     [SerializeField] Character character;
     void Update()
     {
-        hpText.text = "HP: " + character.HP;
+        hpText.text = "HP: " + Math.Ceiling(character.HP);
     }
 }

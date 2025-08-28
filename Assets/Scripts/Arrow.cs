@@ -3,7 +3,7 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     public float Damage;
-    public Vector3 targetPosition;
+    public GameObject ArrowHead;
     Rigidbody2D _rigidbody2D;
     Aiming _aiming;
     [SerializeField] GameObject _afterEffect;
@@ -20,15 +20,15 @@ public class Arrow : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Arrow")) return;
+        if (!(other.CompareTag("Castle") || other.CompareTag("Character"))) return;
         Debug.Log("Hit " + other.name);
         _rigidbody2D.linearVelocity = Vector2.zero;
         _rigidbody2D.gravityScale = 0f;
         _rigidbody2D.simulated = false;
         if (_afterEffect != null)
         {
-            GameObject afterEffect = Instantiate(_afterEffect, (other.transform.position + transform.position) / 2f, transform.rotation);
-            afterEffect.transform.SetParent(other.transform);
+            GameObject afterEffect = Instantiate(_afterEffect, ArrowHead.transform.position, transform.rotation);
+            // afterEffect.transform.SetParent(other.transform);
         }
         if (other.CompareTag("Character")) Destroy(gameObject);
         else Destroy(gameObject, 2f);

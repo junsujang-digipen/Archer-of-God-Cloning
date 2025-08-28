@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 601b1c60996a6c7409a5e55a4e4cc9b4, type: 3}
   m_Name: PoisonShot
   m_EditorClassIdentifier: 
-  ArrowPrefab: {fileID: 2169394834373686008, guid: 977eaae0192e0e44ba6f3200ff484fc0, type: 3}
+  ArrowPrefab: {fileID: 3432640956748181397, guid: ee9faeb305eb5a8498af254308d98f34, type: 3}
+  ArrowSpeed: 10
   GenCount: 1
+  GenInterval: 1
   Cooldown: 5
-  IsStraight: 0
+  IsStraight: 1
+  IsJump: 1

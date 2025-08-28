@@ -22,17 +22,17 @@ public class Controller : MonoBehaviour
         }
         else
         {
-            target.Move(0);
+            target.StopMove();
             // target.CurrentState = Character.State.Attack;
         }
     }
 
     // UI interaction functions
     public Character Target { get { return target; } }
+    public bool IsSkillable { get { return target.IsSkillable; } }
     public void PlaySkill(int skillNumber)
     {
         target.Skill(skillNumber);
-        target.CurrentState = Character.State.Skill;
     }
     public void Aiming(Vector3 targetPosition)
     {

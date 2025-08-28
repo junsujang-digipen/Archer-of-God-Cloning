@@ -1310,7 +1310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd4cbef7a3d4d54f84dd119da270211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1558895773}
+  target: {fileID: 1888758234}
 --- !u!114 &1463895184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1582,6 +1582,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2119957324}
+  - component: {fileID: 2119957325}
   m_Layer: 0
   m_Name: NPCController
   m_TagString: Untagged
@@ -1604,6 +1605,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 636544068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2119957325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119957323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4548fb26208e3be4c8968c7c768bbf7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1558895773}
 --- !u!1001 &2339843922132648550
 PrefabInstance:
   m_ObjectHideFlags: 0

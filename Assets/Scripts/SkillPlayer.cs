@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SkillPlayer : CharacterAction
@@ -66,6 +67,7 @@ public class SkillPlayer : CharacterAction
     {
         _cooldownTimer = _skill.Cooldown;
         _isAiming = false;
+        if (_skill.IsJump) GetComponent<Rigidbody2D>().AddForce(Vector2.up * Math.Abs(Physics2D.gravity.y) * _skill.GenInterval * _skill.GenCount, ForceMode2D.Impulse);
     }
     public void CoolDown()
     {

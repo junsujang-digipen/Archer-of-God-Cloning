@@ -4,7 +4,6 @@ public class Character : MonoBehaviour
 {
     [SerializeField] float _hp;
     public float HP { get { return _hp; } set { _hp = value; } }
-    float _baseYPosition;
 
     Attack _attackAction;
     Move _moveAction;
@@ -22,7 +21,7 @@ public class Character : MonoBehaviour
         get { return _currentState; }
         set
         {
-            if(_currentState == value) return;
+            if (_currentState == value) return;
             if (_currentAction?.IsExitable == false) return;
             _currentAction?.Exit();
             _currentState = value;
@@ -46,7 +45,6 @@ public class Character : MonoBehaviour
     }
     void Awake()
     {
-        _baseYPosition = transform.position.y;
     }
     void Start()
     {
@@ -58,22 +56,21 @@ public class Character : MonoBehaviour
     void Update()
     {
         _currentAction.Do();
-        if(_currentAction.IsExitable == true)
+        if (_currentAction.IsExitable == true)
         {
             CurrentState = State.Attack;
         }
     }
     public void Move(float x)
     {
-        if (x == 0) _moveAction.IsExitable = true;
-        else
-        {
-            _moveAction.Direction = x;
-            CurrentState = State.Moving;
-        }
+        _moveAction.Direction = x;
+        CurrentState = State.Moving;
     }
+    public void StopMove() => _moveAction.IsExitable = true;
+    public bool IsSkillable => CurrentState != State.Skill || _currentAction.IsExitable;
     public void Skill(int skillIdx)
     {
+        if (IsSkillable == false) return;
         _currentAction.IsExitable = true;
         _skillSet.CurrSkillIdx = skillIdx;
         CurrentState = State.Skill;
@@ -83,8 +80,20 @@ public class Character : MonoBehaviour
     {
         if (other.CompareTag("Arrow"))
         {
-            Debug.Log("Hit by Arrow");
+            // Debug.Log("Hit by Arrow");
             _hp -= other.GetComponent<Arrow>().Damage;
+            if (_hp <= 0f)
+            {
+                Debug.Log("Dead");
+                // Destroy(gameObject);
+            }
+        }
+    }
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Poison"))
+        {
+            _hp -= other.GetComponent<PoisonAfterEffect>().Damage * Time.deltaTime;
             if (_hp <= 0f)
             {
                 Debug.Log("Dead");

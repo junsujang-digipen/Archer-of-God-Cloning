@@ -10,7 +10,6 @@ public class SkillUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
     [SerializeField] GameObject _AimImage;
     [SerializeField] GameObject _LockImage;
     TextMeshProUGUI _countDownText;
-    LineRenderer _lineRenderer;
     SkillPlayer _skillPlayer;
     void Start()
     {
@@ -18,8 +17,6 @@ public class SkillUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
         _countDownText = _LockImage.GetComponentInChildren<TextMeshProUGUI>();
         _AimImage.SetActive(false);
         _LockImage.SetActive(false);
-        _lineRenderer = GetComponent<LineRenderer>();
-        _lineRenderer.enabled = false;
         _skillPlayer = _controller.Target.GetComponent<SkillSet>().SkillPlayers[SkillIndex];
     }
     void Update()
@@ -33,54 +30,32 @@ public class SkillUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
             _countDownText.text = "" + (int)Math.Ceiling(_skillPlayer.CooldownTimer);
         }
     }
+    bool IsLocked => _LockImage.activeSelf;
+    bool IsSkillPlayable => _controller.IsSkillable;
+    bool IsAiming => _AimImage.activeSelf;
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
-        if (_LockImage.activeSelf == true) return;
+        if (IsLocked || !IsSkillPlayable) return;
         _AimImage.SetActive(true);
         _AimImage.GetComponent<Image>().raycastTarget = false;
         _controller.PlaySkill(SkillIndex);
-        _lineRenderer.enabled = true;
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
-        if (_LockImage.activeSelf == true || _AimImage.activeSelf == false) return;
+        if (IsLocked || !IsAiming) return;
         Vector3 currentPos = Camera.main.ScreenToWorldPoint(eventData.position);
         currentPos.z = 0;
         _AimImage.transform.position = currentPos;
         _controller.Aiming(currentPos);
-        DrawTrajectory(_controller.Target.transform.position, currentPos);
     }
 
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
-        if (_LockImage.activeSelf == true || _AimImage.activeSelf == false) return;
+        if (IsLocked || !IsAiming) return;
         _AimImage.SetActive(false);
         _AimImage.GetComponent<Image>().raycastTarget = true;
         _controller.Shot();
         _LockImage.SetActive(true);
-        _lineRenderer.enabled = false;
-    }
-    void DrawTrajectory(Vector3 start, Vector3 target) // 임시
-    {
-        if (_lineRenderer == null) return;
-
-        int segmentCount = 30;
-        float flightTime = 1.0f; // 필요에 따라 조절
-        float gravity = Mathf.Abs(Physics2D.gravity.y);
-
-        Vector2 velocity = new Vector2(
-            (target.x - start.x) / flightTime,
-            (target.y - start.y + 0.5f * gravity * flightTime * flightTime) / flightTime
-        );
-
-        _lineRenderer.positionCount = segmentCount;
-        for (int i = 0; i < segmentCount; i++)
-        {
-            float t = i * flightTime / (segmentCount - 1);
-            Vector3 pos = start + (Vector3)(velocity * t);
-            pos.y -= 0.5f * gravity * t * t;
-            _lineRenderer.SetPosition(i, pos);
-        }
     }
 }

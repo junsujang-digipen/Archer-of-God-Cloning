@@ -6,7 +6,9 @@ public class ConstrictMovableRange : MonoBehaviour
     public MovableRange movableRange;
     private Character character;
     float minXPosition;
+    public float MinXPosition { get { return minXPosition; } }
     float maxXPosition;
+    public float MaxXPosition { get { return maxXPosition; } }
     void Start()
     {
         character = GetComponent<Character>();

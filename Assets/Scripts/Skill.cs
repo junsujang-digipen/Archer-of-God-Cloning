@@ -9,4 +9,5 @@ public class Skill : ScriptableObject
     public float GenInterval = 0.1f;
     public float Cooldown = 5f;
     public bool IsStraight = false;
+    public bool IsJump = false;
 }
