@@ -14,6 +14,7 @@ public class SkillPlayer : CharacterAction
         }
     }
     float _cooldownTimer;
+    public float CooldownTimer { get { return _cooldownTimer; } }
     public bool IsAble => _cooldownTimer <= 0;
     float _intervalTimer = 0f;
     int _genCount = 0;
@@ -29,7 +30,6 @@ public class SkillPlayer : CharacterAction
     {
         IsExitable = false;
         _isAiming = true;
-        _cooldownTimer = _skill.Cooldown;
         _genCount = 0;
         ResetInterval();
     }
@@ -66,6 +66,7 @@ public class SkillPlayer : CharacterAction
     }
     public void Shot()
     {
+        _cooldownTimer = _skill.Cooldown;
         _isAiming = false;
     }
     public void CoolDown()

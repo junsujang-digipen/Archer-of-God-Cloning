@@ -28,6 +28,7 @@ public class Controller : MonoBehaviour
     }
 
     // UI interaction functions
+    public Character Target { get { return target; } }
     public void PlaySkill(int skillNumber)
     {
         target.Skill(skillNumber);
