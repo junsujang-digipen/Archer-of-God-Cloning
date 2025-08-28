@@ -10,8 +10,9 @@ public class ConstrictMovableRange : MonoBehaviour
     void Start()
     {
         character = GetComponent<Character>();
-        minXPosition = movableRange.MinXPosition + character.transform.localScale.x/2;
-        maxXPosition = movableRange.MaxXPosition - character.transform.localScale.x/2;
+        SpriteRenderer sprite = GetComponentInChildren<SpriteRenderer>();
+        minXPosition = movableRange.MinXPosition + sprite.bounds.extents.x;
+        maxXPosition = movableRange.MaxXPosition - sprite.bounds.extents.x;
     }
     void Update()
     {

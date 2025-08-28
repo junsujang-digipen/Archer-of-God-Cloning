@@ -9,10 +9,17 @@ public class Attack : CharacterAction
     [SerializeField] GameObject _arrowPrefab;
     [SerializeField] Aiming _aiming;
     [SerializeField] GameObject _bow;
+    Vector3 direction;
     void Start()
     {
         _searchTarget = _targetSide.GetComponent<SearchTarget>();
         ResetTimer();
+    }
+    void Update()
+    {
+        // 활 회전 설정
+        direction = ComputeDirection(_searchTarget.GetTarget().transform.position, Physics2D.gravity.y);
+        _aiming.Velocity = direction;
     }
     public override void Do()
     {
@@ -24,18 +31,12 @@ public class Attack : CharacterAction
             GameObject arrow = Instantiate(_arrowPrefab);
             // 화살 초기 속도 설정
             Rigidbody2D _rigidbody2D = arrow.GetComponent<Rigidbody2D>();
-            float gravity = Physics2D.gravity.y * _rigidbody2D.gravityScale;
-            // 속도 구하기
-            Vector3 direction = ComputeDirection(_searchTarget.GetTarget().transform.position, gravity);
             _rigidbody2D.linearVelocity = direction;
-            // 활 회전 설정
-            _aiming.Velocity = direction;
+            
             arrow.transform.position = _bow.transform.position;
         }
         else
         {
-            Vector3 direction = ComputeDirection(_searchTarget.GetTarget().transform.position, Physics2D.gravity.y);
-            _aiming.Velocity = direction;
             _attackDelayTimer -= GameTime.DeltaTime;
         }
     }
@@ -46,7 +47,8 @@ public class Attack : CharacterAction
     Vector3 ComputeDirection(Vector3 targetPosition, float gravity)
     {
         Vector3 direction = targetPosition - transform.position;
-        float t = 1.0f; // 임시 시간초, 추후 거리 기반으로 변경?
+        float distance = direction.magnitude;
+        float t = 1.0f + distance*0.05f; // 1초 + 거리 기반 시간 추가
         direction.x /= t;
         direction.y -= 0.5f * gravity * t * t;
         direction.y /= t;
