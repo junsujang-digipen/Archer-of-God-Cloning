@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,5 +10,4 @@ public class Load : MonoBehaviour
     {
         SceneManager.LoadScene(_sceneName,LoadSceneMode.Single);
     }
-
 }

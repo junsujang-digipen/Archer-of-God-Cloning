@@ -8,6 +8,6 @@ public class UpdateHP : MonoBehaviour
     [SerializeField] Character character;
     void Update()
     {
-        hpText.text = "HP: " + Math.Ceiling(character.HP);
+        hpText.text = "HP: " + Math.Max(0, Math.Ceiling(character.HP));
     }
 }

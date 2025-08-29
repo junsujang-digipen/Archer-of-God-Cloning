@@ -30,7 +30,7 @@ public class SkillUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
         }
         else
         {
-            _countDownText.text = "" + Math.Max(0, (int)Math.Ceiling(_skillPlayer.CooldownTimer));
+            _countDownText.text = "" + (int)Math.Ceiling(_skillPlayer.CooldownTimer);
         }
     }
     bool IsLocked => _LockImage.activeSelf;
