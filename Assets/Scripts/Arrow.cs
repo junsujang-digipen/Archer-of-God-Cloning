@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Arrow : MonoBehaviour
 {
@@ -18,10 +19,12 @@ public class Arrow : MonoBehaviour
     { 
         _aiming.Velocity = _rigidbody2D.linearVelocity;
     }
+    [SerializeField]UnityEvent _hitAudio;
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!(other.CompareTag("Castle") || other.CompareTag("Character"))) return;
         Debug.Log("Hit " + other.name);
+        _hitAudio?.Invoke();
         _rigidbody2D.linearVelocity = Vector2.zero;
         _rigidbody2D.gravityScale = 0f;
         _rigidbody2D.simulated = false;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class Character : MonoBehaviour
             _hp = value;
         }
     }
-
     Attack _attackAction;
     Move _moveAction;
     SkillSet _skillSet;
@@ -82,6 +82,7 @@ public class Character : MonoBehaviour
         _skillSet.CurrSkillIdx = skillIdx;
         CurrentState = State.Skill;
     }
+    [SerializeField]UnityEvent _hitAudio;
     void Hit(float damage)
     {
         _hp -= damage;
@@ -92,12 +93,17 @@ public class Character : MonoBehaviour
         if (other.CompareTag("Arrow"))
         {
             // Debug.Log("Hit by Arrow");
+            _hitAudio?.Invoke();
             Hit(other.GetComponent<Arrow>().Damage);
             if (_hp <= 0f)
             {
                 Debug.Log("Dead");
                 // Destroy(gameObject);
             }
+        }
+        if (other.CompareTag("Poison"))
+        { 
+            _hitAudio?.Invoke();
         }
     }
     void OnTriggerStay2D(Collider2D other)

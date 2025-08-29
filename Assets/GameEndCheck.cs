@@ -24,9 +24,10 @@ public class GameEndCheck : MonoBehaviour
 
                 UI.SetActive(true);
                 if (GlobalVariables.PlayerCharacter.HP <= 0)
-                { 
+                {
                     UI.GetComponentInChildren<TextMeshProUGUI>().text = "You Lose";
-                }else
+                }
+                else
                 {
                     UI.GetComponentInChildren<TextMeshProUGUI>().text = "You Win";
                 }
@@ -39,5 +40,9 @@ public class GameEndCheck : MonoBehaviour
     {
         GameTime.TimeScale = 1;
         SceneManager.LoadScene("Temp", LoadSceneMode.Single);
+    }
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
