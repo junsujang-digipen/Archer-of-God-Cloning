@@ -3,7 +3,14 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [SerializeField] float _hp;
-    public float HP { get { return _hp; } set { _hp = value; } }
+    public float HP
+    {
+        get { return _hp; }
+        set
+        {
+            _hp = value;
+        }
+    }
 
     Attack _attackAction;
     Move _moveAction;
@@ -75,13 +82,17 @@ public class Character : MonoBehaviour
         _skillSet.CurrSkillIdx = skillIdx;
         CurrentState = State.Skill;
     }
-
+    void Hit(float damage)
+    {
+        _hp -= damage;
+        GetComponent<Animator>().SetTrigger("Hit");
+    }
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Arrow"))
         {
             // Debug.Log("Hit by Arrow");
-            _hp -= other.GetComponent<Arrow>().Damage;
+            Hit(other.GetComponent<Arrow>().Damage);
             if (_hp <= 0f)
             {
                 Debug.Log("Dead");
@@ -93,7 +104,7 @@ public class Character : MonoBehaviour
     {
         if (other.CompareTag("Poison"))
         {
-            _hp -= other.GetComponent<PoisonAfterEffect>().Damage * Time.deltaTime;
+            Hit(other.GetComponent<AfterEffect>().Damage * Time.deltaTime);
             if (_hp <= 0f)
             {
                 Debug.Log("Dead");

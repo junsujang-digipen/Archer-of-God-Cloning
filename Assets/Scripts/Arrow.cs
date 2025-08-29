@@ -28,6 +28,10 @@ public class Arrow : MonoBehaviour
         if (_afterEffect != null)
         {
             GameObject afterEffect = Instantiate(_afterEffect, ArrowHead.transform.position, transform.rotation);
+            if (afterEffect.GetComponent<AfterEffect>() != null)
+            { 
+                Destroy(gameObject);
+            }
             // afterEffect.transform.SetParent(other.transform);
         }
         if (other.CompareTag("Character")) Destroy(gameObject);

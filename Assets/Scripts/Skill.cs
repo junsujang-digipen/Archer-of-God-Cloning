@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Skill", menuName = "Scriptable Objects/Skill")]
 public class Skill : ScriptableObject
 {
+    public string SkillName = "Skill";
     public GameObject ArrowPrefab;
     public float ArrowSpeed = 10f;
     public int GenCount = 1;

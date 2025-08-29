@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 601b1c60996a6c7409a5e55a4e4cc9b4, type: 3}
   m_Name: StraightShot
   m_EditorClassIdentifier: 
+  SkillName: Rapid\nShooting
   ArrowPrefab: {fileID: 2169394834373686008, guid: 977eaae0192e0e44ba6f3200ff484fc0, type: 3}
   ArrowSpeed: 15
   GenCount: 3
   GenInterval: 0.1
   Cooldown: 3
   IsStraight: 1
+  IsJump: 0

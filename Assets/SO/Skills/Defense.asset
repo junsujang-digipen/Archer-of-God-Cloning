@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 601b1c60996a6c7409a5e55a4e4cc9b4, type: 3}
   m_Name: Defense
   m_EditorClassIdentifier: 
+  SkillName: Obstacle
   ArrowPrefab: {fileID: 2057686344220825146, guid: abe8ae91ace17594f874559e6665051c, type: 3}
   ArrowSpeed: 5
   GenCount: 1

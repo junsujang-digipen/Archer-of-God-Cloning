@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,16 +19,18 @@ public class SkillUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
         _AimImage.SetActive(false);
         _LockImage.SetActive(false);
         _skillPlayer = _controller.Target.GetComponent<SkillSet>().SkillPlayers[SkillIndex];
+        GetComponentInChildren<TextMeshProUGUI>().text = _skillPlayer.Skill.SkillName;
     }
     void Update()
     {
+        // GetComponent<Button>().
         if (_skillPlayer.IsAble == true)
         {
             _LockImage.SetActive(false);
         }
         else
         {
-            _countDownText.text = "" + (int)Math.Ceiling(_skillPlayer.CooldownTimer);
+            _countDownText.text = "" + Math.Max(0, (int)Math.Ceiling(_skillPlayer.CooldownTimer));
         }
     }
     bool IsLocked => _LockImage.activeSelf;
@@ -37,6 +40,7 @@ public class SkillUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
     {
         if (IsLocked || !IsSkillPlayable) return;
         _AimImage.SetActive(true);
+        // _AimImage.GetComponent<Animation>().Play();
         _AimImage.GetComponent<Image>().raycastTarget = false;
         _controller.PlaySkill(SkillIndex);
     }
